@@ -36,7 +36,7 @@ export default function Index() {
             property="og:description"
             content="Software Developer based in Hawaii. Bachelors of Science graduate from University of Hawaii at Manoa in Computer Science."
           />
-          <meta property="og:image" content="https://i.imgur.com/AOMvmeJ.png" />
+          <meta property="og:image" content="" />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://tregelacio.github.io" />
@@ -50,7 +50,7 @@ export default function Index() {
           />
           <meta
             property="twitter:image"
-            content="https://i.imgur.com/AOMvmeJ.png"
+            content=""
           />
         </Head>
 
@@ -63,7 +63,10 @@ export default function Index() {
         maxWidth="700px"
         px={2}
       >
-        <Flex
+
+        <Introduction />
+
+{/*         <Flex
           flexDirection="column"
           justifyContent="flex-start"
           alignItems="flex-start"
@@ -71,8 +74,33 @@ export default function Index() {
         >
           <Heading mb={2}>Aloha, I am Tre Gelacio</Heading>
           <Text color={colorSecondary[colorMode]}>Computer Science Student from UH Manoa c/o 2020</Text>
-        </Flex>
+        </Flex> */}
       </Stack>
     </Container>
   )
+}
+
+let client = require('contentful').createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+})
+
+export async function getStaticProps() {
+  let data = await client.getEntries({
+    content_type: 'Projects',
+    order: 'fields.order',
+  })
+
+  let data2 = await client.getEntries({
+    content_type: 'blog',
+    limit: 5,
+    order: 'sys.createdAt',
+  })
+
+  return {
+    props: {
+      projects: data.items,
+      blogs: data2.items.reverse(),
+    },
+  }
 }

@@ -5,6 +5,7 @@ export default class MyDocument extends NextDocument {
     render() {
         return (
             <Html lang="en">
+                <meta name="theme-color" content="black" />
                 <Head />
                 <body>
                     <ColorModeScript />
